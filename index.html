@@ -69,6 +69,7 @@
         var result = document.createElement('p');
         var start = Date.now();
         var evaled = func();
+        if (Array.isArray(evaled)) evaled = evaled.join(', ');
         var timeTaken = Date.now() - start;
         result.innerHTML = 'Result: <b>' + evaled + '</b> (took ' + timeTaken + 'ms)';
         document.body.appendChild(result);
