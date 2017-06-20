@@ -62,7 +62,7 @@
         document.body.appendChild(title);
         
         var problem = document.createElement('div');
-        var text = problemText[0].split("\n").map(function(line) { return line.trim(); }).join("</p><p>").trim();
+        var text = problemText[0].split("\n").map(function(line) { return line.trim(); }).join("<br>").trim();
         problem.innerHTML = '<p>' + text + '</p>';
         document.body.appendChild(problem);
         
