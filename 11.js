@@ -1,4 +1,4 @@
-JG.solution(10, function() {
+JG.solution(11, function() {
   /* START
   Largest product in a grid
   Problem 11 
