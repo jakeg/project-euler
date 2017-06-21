@@ -19,30 +19,25 @@ JG.solution(12, function() {
 
   What is the value of the first triangle number to have over five hundred divisors?
   END */
-  
-  var n = 0;
-  var num;
-  var factors = 0;
-  
-  while (true) {
-    n++; // nth triangular number
-    num = n * n/2 + n/2; // triangular number formula
-    if (numFactors(num) > 500) {
-      console.log('nth', n);
-      console.log('num', num);
-      return num;
-    }
+
+  var num = 1;
+  var n = 1; // n * n/2 + n/2 - triangular number formula
+  var factorsRequired = 500;
+  while (numFactors(num) <= factorsRequired) {
+    n++;
+    num += n;
   }
   
   function numFactors(num) {
-    // var count = num === 1 ? 1 : 2; // start with the number and itself
-    var count = 2; // start with the number and itself
-    for (var i=2; i<=num/2; i++) {
-      if (num % i === 0) count++;
+    var count = 0;
+    var squareRoot = Math.sqrt(num); // crucial for efficiency
+    for (var i=1; i<=squareRoot; i++) {
+      if (num % i === 0) count += 2; // 2x because n * m = num
     }
+    if (Number.isInteger(squareRoot)) count--; // don't count square root 2x
     return count;
   }
   
-  return false;
+  return num;
   
 });
