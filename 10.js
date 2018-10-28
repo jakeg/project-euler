@@ -8,15 +8,15 @@ JG.solution(10, () => {
   END */
 
   const primes = [2]
-  const below = 2000000
-  while (primes[primes.length - 1] < below) {
-    primes.push(nextPrime(primes))
+  const below = 2000000 // 2000000
+
+  while (true) {
+    const prime = nextPrime(primes)
+    if (prime && prime < below) primes.push(prime)
+    else break
   }
 
-  let sum = 0
-  for (let i = 0; i < primes.length - 1; i++) {
-    sum += primes[i]
-  }
+  const sum = primes.reduce((acc, v) => acc + v)
 
   function nextPrime (primes) {
     let test = primes[primes.length - 1]
@@ -25,7 +25,9 @@ JG.solution(10, () => {
     while (factorFound === true) {
       factorFound = false
       test++
+      const sqrt = Math.sqrt(test) // no point testing numbers bigger than the sqrt
       for (let prime of primes) {
+        if (prime > sqrt) break
         if (test % prime === 0) {
           // factor found, so 'test' isn't a new prime
           factorFound = true

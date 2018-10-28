@@ -46,7 +46,9 @@ JG.solution(3, () => {
     while (factorFound === true) {
       factorFound = false
       test++
+      const sqrt = Math.sqrt(test) // no point testing numbers bigger than the sqrt
       for (let prime of primes) {
+        if (prime > sqrt) break
         if (test % prime === 0) {
           // factor found, so 'test' isn't a new prime
           factorFound = true
