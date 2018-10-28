@@ -7,29 +7,37 @@ JG.solution(7, () => {
   What is the 10 001st prime number?
   END */
 
-  const nthPrime = 10001
-  const primes = [2]
-  for (let i = 1; i < nthPrime; i++) {
-    primes.push(nextPrime(primes))
-  }
+  // using the 'sieve of eratosthenes' https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes
 
-  function nextPrime (primes) {
-    let test = primes[primes.length - 1]
-    // keep testing new numbers to see if they're prime
-    let factorFound = true
-    while (factorFound === true) {
-      factorFound = false
-      test++
-      for (let prime of primes) {
-        if (test % prime === 0) {
-          // factor found, so 'test' isn't a new prime
-          factorFound = true
-          break
+  // we will create a list then starting with 2 mark on that list 2 and all multiples of it
+  // then every time we find a non-marked number, that's a prime
+  // if our list isn't long enough, we double it and start again
+
+  function nthPrime (n) {
+    let listEnd = 1000 // we will double this every time we can't find it
+    while (true) {
+      // create our seive
+      const sieve = {}
+      for (let i = 2; i <= listEnd; i++) {
+        sieve[i] = false
+      }
+
+      for (let num in sieve) {
+        num = Number(num)
+        if (!sieve[num]) {
+          // num is a prime!
+          for (let i = num * 2; i <= listEnd; i += num) {
+            sieve[i] = true // won't be a prime as has this prime as a factor
+          }
         }
       }
+
+      const primes = Object.keys(sieve).filter(v => !sieve[v]).map(v => Number(v))
+      const nthPrime = primes[n]
+      if (nthPrime) return nthPrime
+      else listEnd *= 2
     }
-    return test // we got out the loop so we're the next prime!
   }
 
-  return primes[nthPrime - 1]
+  return nthPrime(10001)
 })
