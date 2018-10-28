@@ -13,8 +13,10 @@ JG.solution(4, () => {
     for (let i = maxInput; i >= minInput; i--) {
       for (let j = maxInput; j >= minInput; j--) {
         const product = i * j
-        if (isPalindrome(product)) {
-          if (product > max) max = product
+        if (product > max) {
+          if (isPalindrome(product)) {
+            max = product
+          }
         }
       }
     }
