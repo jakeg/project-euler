@@ -5,18 +5,18 @@ JG.solution(5, () => {
   What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?
   END */
 
-  let test = 20
-  let fail = false
+  const maxFactor = 20
+  let test = maxFactor
   while (true) {
-    fail = false
-    for (let i = 1; i <= 20; i++) {
+    let fail = false
+    for (let i = 1; i <= maxFactor; i++) {
       if (test % i !== 0) {
         fail = true
         break
       }
     }
     if (!fail) break
-    else test++
+    else test += maxFactor
   }
 
   return test
