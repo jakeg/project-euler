@@ -7,36 +7,34 @@ JG.solution(10, () => {
   Find the sum of all the primes below two million.
   END */
 
-  const primes = [2]
-  const below = 2000000 // 2000000
+  // adapted from #7
+  function allPrimesBelow (below) {
+    const primes = []
+    const listEnd = below - 1
 
-  while (true) {
-    const prime = nextPrime(primes)
-    if (prime && prime < below) primes.push(prime)
-    else break
-  }
+    // create our seive
+    const sieve = []
+    for (let i = 2; i <= listEnd; i++) {
+      sieve.push(false)
+    }
 
-  const sum = primes.reduce((acc, v) => acc + v)
-
-  function nextPrime (primes) {
-    let test = primes[primes.length - 1]
-    // keep testing new numbers to see if they're prime
-    let factorFound = true
-    while (factorFound === true) {
-      factorFound = false
-      test++
-      const sqrt = Math.sqrt(test) // no point testing numbers bigger than the sqrt
-      for (let prime of primes) {
-        if (prime > sqrt) break
-        if (test % prime === 0) {
-          // factor found, so 'test' isn't a new prime
-          factorFound = true
-          break
+    for (let i = 0; i < sieve.length; i++) {
+      const num = i + 2 // 1st element is 2
+      if (!sieve[i]) {
+        // num is a prime!
+        primes.push(num)
+        for (let j = num * 2; j <= listEnd; j += num) {
+          // won't be a prime as has this prime as a factor
+          sieve[j - 2] = true // our array starts with num 2
         }
       }
     }
-    return test // we got out the loop so we're the next prime!
+
+    return primes
   }
+
+  const primes = allPrimesBelow(2000000)
+  const sum = primes.reduce((acc, v) => acc + v)
 
   return sum
 })
