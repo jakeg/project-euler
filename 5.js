@@ -9,7 +9,7 @@ JG.solution(5, () => {
   let test = maxFactor
   while (true) {
     let fail = false
-    for (let i = 1; i <= maxFactor; i++) {
+    for (let i = 1 + maxFactor / 2; i <= maxFactor; i++) {
       if (test % i !== 0) {
         fail = true
         break
