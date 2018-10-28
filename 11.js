@@ -1,9 +1,9 @@
-JG.solution(11, function() {
+JG.solution(11, () => {
   /* START
   Largest product in a grid
-  Problem 11 
+  Problem 11
   In the 20x20 grid below, four numbers along a diagonal line have been marked in red.
-  
+
   08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
   49 49 99 40 17 81 18 57 60 87 17 40 98 43 69 48 04 56 62 00
   81 49 31 73 55 79 14 29 93 71 40 67 53 88 30 03 49 13 36 65
@@ -24,13 +24,13 @@ JG.solution(11, function() {
   20 69 36 41 72 30 23 88 34 62 99 69 82 67 59 85 74 04 36 16
   20 73 35 29 78 31 90 01 74 31 49 71 48 86 81 16 23 57 05 54
   01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48
-  
+
   The product of these numbers is 26 x 63 x 78 x 14 = 1788696.
-  
+
   What is the greatest product of four adjacent numbers in the same direction (up, down, left, right, or diagonally) in the 20x20 grid?
   END */
-  
-  var grid = `
+
+  let grid = `
     08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
     49 49 99 40 17 81 18 57 60 87 17 40 98 43 69 48 04 56 62 00
     81 49 31 73 55 79 14 29 93 71 40 67 53 88 30 03 49 13 36 65
@@ -51,40 +51,35 @@ JG.solution(11, function() {
     20 69 36 41 72 30 23 88 34 62 99 69 82 67 59 85 74 04 36 16
     20 73 35 29 78 31 90 01 74 31 49 71 48 86 81 16 23 57 05 54
     01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48
-  `;
-  
-  var lines = grid.trim().split('\n');
-  lines = lines.map(function(line) { return line.trim() });
-  lines.forEach(function(line, i) {
-    lines[i] = line.trim().split(' ').map(function(line) { return parseInt(line, 10); });
-  });
-  
-  var max = 0;
-  var cols = 20;
-  var rows = 20;
-  
-  for (var row=0; row<rows; row++) {
-    for (var col=0; col<cols; col++) {
+  `
+
+  let lines = grid.trim().split('\n')
+  lines = lines.map(line => line.trim().split(' ').map(num => Number(num)))
+
+  let max = 0
+  const cols = lines[0].length
+  const rows = lines.length
+
+  for (let row = 0; row < rows; row++) {
+    for (let col = 0; col < cols; col++) {
       // left (right isn't needed separately as will duplicate this)
       if (col < cols - 3) {
-        max = Math.max(max, lines[row][col] * lines[row][col+1] * lines[row][col+2] * lines[row][col+3]);
+        max = Math.max(max, lines[row][col] * lines[row][col + 1] * lines[row][col + 2] * lines[row][col + 3])
       }
       // down (up is duplicate of this)
       if (row < rows - 3) {
-        max = Math.max(max, lines[row][col] * lines[row+1][col] * lines[row+2][col] * lines[row+3][col]);
+        max = Math.max(max, lines[row][col] * lines[row + 1][col] * lines[row + 2][col] * lines[row + 3][col])
       }
       // diagonally top-left to bottom-right
       if (col < cols - 3 && row < rows - 3) {
-        max = Math.max(max, lines[row][col] * lines[row+1][col+1] * lines[row+2][col+1] * lines[row+3][col+1]);
+        max = Math.max(max, lines[row][col] * lines[row + 1][col + 1] * lines[row + 2][col + 1] * lines[row + 3][col + 1])
       }
       // diagonally top-right to bottom-left
       if (col > 2 && row < rows - 3) {
-        max = Math.max(max, lines[row][col] * lines[row+1][col-1] * lines[row+2][col-2] * lines[row+3][col-3]);
+        max = Math.max(max, lines[row][col] * lines[row + 1][col - 1] * lines[row + 2][col - 2] * lines[row + 3][col - 3])
       }
-
     }
   }
-  
-  return max;
-  
-});
+
+  return max
+})
