@@ -16,23 +16,25 @@ JG.solution(7, () => {
   function nthPrime (n) {
     let listEnd = 1000 // we will double this every time we can't find it
     while (true) {
+      const primes = []
       // create our seive
-      const sieve = {}
+      const sieve = []
       for (let i = 2; i <= listEnd; i++) {
-        sieve[i] = false
+        sieve.push(false)
       }
 
-      for (let num in sieve) {
-        num = Number(num)
-        if (!sieve[num]) {
+      for (let i = 0; i < sieve.length; i++) {
+        const num = i + 2 // 1st element is 2
+        if (!sieve[i]) {
           // num is a prime!
-          for (let i = num * 2; i <= listEnd; i += num) {
-            sieve[i] = true // won't be a prime as has this prime as a factor
+          primes.push(num)
+          for (let j = num * 2; j <= listEnd; j += num) {
+            // won't be a prime as has this prime as a factor
+            sieve[j - 2] = true // our array starts with num 2
           }
         }
       }
 
-      const primes = Object.keys(sieve).filter(v => !sieve[v]).map(v => Number(v))
       const nthPrime = primes[n]
       if (nthPrime) return nthPrime
       else listEnd *= 2
