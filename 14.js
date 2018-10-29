@@ -28,15 +28,21 @@ JG.solution(14, () => {
     }
   }
 
-  // TODO: memoise!
   function chainFactory () {
-    // const memory = {}
-    return (n) => {
+    const memory = {}
+    return (startingNum) => {
       let length = 1
+      let n = startingNum
       while (n > 1) {
-        n = (n % 2 === 0) ? n / 2 : 3 * n + 1
-        length++
+        if (memory[n]) {
+          length += memory[n]
+          n = 1 // get out of loop
+        } else {
+          n = (n % 2 === 0) ? n / 2 : 3 * n + 1
+          length++
+        }
       }
+      memory[startingNum] = length
       return length
     }
   }
