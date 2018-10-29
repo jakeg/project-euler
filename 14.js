@@ -19,22 +19,26 @@ JG.solution(14, () => {
   const max = 1000000
   let longestChain = 0
   let longestChainStartingNum = 0
+  const chainLength = chainFactory()
   for (let i = 1; i <= max; i++) {
-    const chain = makeChain(i)
-    if (chain.length > longestChain) {
-      longestChain = chain.length
-      longestChainStartingNum = chain[0]
+    const length = chainLength(i)
+    if (length > longestChain) {
+      longestChain = length
+      longestChainStartingNum = i
     }
   }
 
   // TODO: memoise!
-  function makeChain (n) {
-    const chain = [n]
-    while (n > 1) {
-      n = (n % 2 === 0) ? n / 2 : 3 * n + 1
-      chain.push(n)
+  function chainFactory () {
+    // const memory = {}
+    return (n) => {
+      let length = 1
+      while (n > 1) {
+        n = (n % 2 === 0) ? n / 2 : 3 * n + 1
+        length++
+      }
+      return length
     }
-    return chain
   }
 
   return longestChainStartingNum
