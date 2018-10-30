@@ -9,9 +9,11 @@ JG.solution(21, () => {
     Evaluate the sum of all the amicable numbers under 10000.
   END */
 
-  const { divisorSum, memory } = divisorsFactory()
+  const below = 10000
 
-  for (let i = 1; i < 10000; i++) {
+  const { divisorSum, memory } = divisorsFactory(below)
+
+  for (let i = 1; i < below; i++) {
     divisorSum(i)
   }
 
@@ -34,7 +36,7 @@ JG.solution(21, () => {
 
   const sum = amicables.reduce((acc, v) => acc + v, 0)
 
-  function divisorsFactory () {
+  function divisorsFactory (below) {
     const memory = {} // memoise
 
     function divisorSum (num) {
@@ -47,7 +49,7 @@ JG.solution(21, () => {
         }
       }
       const sum = divisors.reduce((acc, v) => acc + v, 0)
-      memory[num] = sum
+      if (sum < below) memory[num] = sum // these won't be amicable as too high
       return sum
     }
 
