@@ -30,15 +30,6 @@ Find the maximum total from top to bottom of the triangle below:
 NOTE: As there are only 16384 routes, it is possible to solve this problem by trying every route. However, Problem 67, is the same challenge with a triangle containing one-hundred rows; it cannot be solved by brute force, and requires a clever method! ;o)
   END */
 
-  /*
-    PLAN
-      - by going left or right we exclude far-opposite side
-      - but nothing else is excluded
-      - so choose left/right based on adding up one far side vs other
-      - every time I move, the triangle of possibilities gets smaller
-      - also need to check if very next row provides bigger advantage
-  */
-
   const triangle = `
     75
     95 64
@@ -59,23 +50,15 @@ NOTE: As there are only 16384 routes, it is possible to solve this problem by tr
 
   const rows = triangle.trim().replace(/ {2,}/g, '').split('\n').map(v => v.split(' ').map(v => Number(v)))
 
-  const bestRoute = []
-  const len = rows.length
-  for (let i = 0; i < len; i++) {
-    bestRoute.push(rows.shift()[0])
-    if (rows.length) {
-      // acc = -1; acc > 0 so we don't include the first row
-      const leftSum = rows.reduce((acc, v) => acc > -1 ? acc + v[0] : 0, -1)
-      const rightSum = rows.reduce((acc, v) => acc > -1 ? acc + v[v.length - 1] : 0, -1)
-      const nextRowDiff = rows[0][0] - rows[0][1] // positive for left > right
-      const sideDiff = leftSum - rightSum // positive for left > right
-      const goLeft = sideDiff + nextRowDiff > 0
-      console.log(sideDiff, nextRowDiff, sideDiff + nextRowDiff, goLeft ? 'left' : 'right')
-      if (goLeft) rows.forEach(row => row.pop()) // go left
-      else rows.forEach(row => row.shift()) // go right
+  while (rows.length >= 2) {
+    const row = rows[rows.length - 2] // start at penultimate row
+    const bottomRow = rows[rows.length - 1]
+    for (let i = 0; i < row.length; i++) {
+      // add to each number in penultimate row the max of 2 options below
+      row[i] += Math.max(bottomRow[i], bottomRow[i + 1])
     }
+    rows.pop() // remove the now deprecated bottom row
   }
-  console.log(bestRoute)
 
-  return bestRoute.reduce((acc, v) => acc + v, 0)
+  return rows[0][0]
 })
