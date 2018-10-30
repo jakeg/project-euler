@@ -25,12 +25,10 @@ JG.solution(25, () => {
   const fib = fibFactory()
 
   let n = 1
-  const maxDigits = 500 // TODO: replace with 1000
-  const max = Math.pow(10, maxDigits - 1) // infinity
-  if (max === Infinity) return 'max is infinity'
-  // console.log(max)
+  const maxDigits = 1000 // TODO: replace with 1000
+
   while (true) {
-    if (fib(n) > max) {
+    if (fib(n).length >= maxDigits) {
       console.log(fib(n))
       return n
     }
@@ -41,9 +39,28 @@ JG.solution(25, () => {
     const memory = {}
     return function fib (n) {
       if (memory[n]) return memory[n]
-      const res = n < 3 ? 1 : fib(n - 1) + fib(n - 2)
+      const res = n < 3 ? [1] : handAdd(fib(n - 1), fib(n - 2))
       memory[n] = res
       return res
     }
+  }
+
+  // add 2 numbers, where the numbers are reversed array of numbers
+  function handAdd (digits, nDigits) {
+    const biggest = digits.length > nDigits.length ? digits : nDigits
+    const smallest = digits.length > nDigits.length ? nDigits : digits
+    const res = [...biggest] // don't mutate
+    let carry = 0
+    for (let i = 0; i < res.length; i++) {
+      const add = smallest[i] || 0
+      res[i] += add + carry
+      carry = 0
+      if (res[i] > 9) {
+        carry = 1
+        res[i] -= 10
+      }
+    }
+    if (carry) res.push(carry)
+    return res
   }
 })

@@ -28,3 +28,13 @@ function factorial (n) {
   // like we would by hand, remembering to carry if > 9
   return handMultiply(n, factorial(handSubtract(n, 1))) // n * factorial(n - 1)
 }
+
+function fibFactory () {
+  const memory = {}
+  return function fib (n) {
+    if (memory[n]) return memory[n]
+    const res = n < 3 ? 1 : fib(n - 1) + fib(n - 2)
+    memory[n] = res
+    return res
+  }
+}
