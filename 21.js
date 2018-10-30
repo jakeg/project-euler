@@ -23,7 +23,7 @@ JG.solution(21, () => {
 
   function divisorSum (num) {
     let sum = 0
-    for (let i = 2; i <= Math.sqrt(num); i++) {
+    for (let i = 2; i <= Math.floor(Math.sqrt(num)); i++) {
       if (num % i === 0) {
         sum += i + num / i
       }
