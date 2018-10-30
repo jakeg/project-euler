@@ -11,52 +11,24 @@ JG.solution(21, () => {
 
   const below = 10000
 
-  const { divisorSum, memory } = divisorsFactory(below)
-
-  for (let i = 1; i < below; i++) {
-    divisorSum(i)
-  }
-
-  const reversed = {}
-  for (let num in memory) {
-    const divisor = memory[num]
-    num = Number(num)
-    if (divisor !== num) {
-      if (!reversed[divisor]) reversed[divisor] = []
-      reversed[divisor].push(num)
-    }
-  }
-
-  const amicables = []
-  for (let num in memory) {
-    if (reversed[num] && reversed[num].find(v => v === memory[num])) {
-      amicables.push(Number(num))
-    }
-  }
-
-  const sum = amicables.reduce((acc, v) => acc + v, 0)
-
-  function divisorsFactory (below) {
-    const memory = {} // memoise
-
-    function divisorSum (num) {
-      if (memory[num]) return memory[num]
-      const divisors = [1]
-      for (let i = 2; i <= Math.sqrt(num); i++) {
-        if (num % i === 0) {
-          divisors.push(i)
-          divisors.push(num / i)
-        }
+  let sum = 0
+  for (let a = 1; a < below; a++) {
+    const b = divisorSum(a)
+    if (b > a) {
+      if (divisorSum(b) === a) {
+        sum += a + b
       }
-      const sum = divisors.reduce((acc, v) => acc + v, 0)
-      if (sum < below) memory[num] = sum // these won't be amicable as too high
-      return sum
     }
+  }
 
-    return {
-      memory,
-      divisorSum
+  function divisorSum (num) {
+    let sum = 0
+    for (let i = 2; i <= Math.sqrt(num); i++) {
+      if (num % i === 0) {
+        sum += i + num / i
+      }
     }
+    return sum
   }
 
   return sum
