@@ -16,9 +16,7 @@ JG = (function (jg) {
 
     function run () {
       // separate the comment explaining the problem from the solution
-      const tmp = el('p')
-      tmp.innerText = func
-      const [ code1, problemText, code2 ] = tmp.innerText.split(/ *\/\* *START| *END *\*\/\n/m) // use /*START blah blah END*/ to hold the problem text
+      const [ code1, problemText, code2 ] = func.toString().split(/ *\/\* *START| *END *\*\/\n/m) // use /*START blah blah END*/ to hold the problem text
       const codeText = [code1, code2].join('')
 
       const title = el('h1')
