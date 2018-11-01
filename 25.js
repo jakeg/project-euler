@@ -29,7 +29,6 @@ JG.solution(25, () => {
 
   while (true) {
     if (fib(n).length >= maxDigits) {
-      console.log(fib(n))
       return n
     }
     n++
